@@ -6,23 +6,22 @@ __author__ = "Alex Drlica-Wagner"
 import matplotlib
 from collections import OrderedDict as odict
 
-# Going back in time, here was the origin palette
-# Note the typo in entry 48: 112 (pink) not 2 (red)
-# https://github.com/root-project/root/blob/9294cc60a9a70dece4f24f0bc0399cc00c0f78b5/base/src/TStyle.cxx#L1445-L1449
-PALETTE99 = [19,18,17,16,15,14,13,12,11,20,
-            21,22,23,24,25,26,27,28,29,30, 8,
-            31,32,33,34,35,36,37,38,39,40, 9,
-            41,42,43,44,45,47,48,49,46,50, 2,
-            #7, 6, 5, 4, 3, 112,1] # original with typo
-             7, 6, 5, 4, 3, 5,1]   # corrected to match
 
 # A more modern version from TColor...
 # https://github.com/root-project/root/blob/2762a32343f57664b42558cd3af4031fe2f4f086/core/base/src/TColor.cxx#L2404-L2408
-PALETTE06 = [19,18,17,16,15,14,13,12,11,20,
-            21,22,23,24,25,26,27,28,29,30, 8,
-            31,32,33,34,35,36,37,38,39,40, 9,
-            41,42,43,44,45,47,48,49,46,50, 2,
-             7, 6, 5, 4, 3, 2,1]
+PALETTE = [19,18,17,16,15,14,13,12,11,20,
+           21,22,23,24,25,26,27,28,29,30, 8,
+           31,32,33,34,35,36,37,38,39,40, 9,
+           41,42,43,44,45,47,48,49,46,50, 2,
+            7, 6, 5, 4, 3, 2,1]
+            #7, 6, 5, 4, 3, 112,1] # original with typo
+            #7, 6, 5, 4, 3, 5,1]   # corrected to match
+
+# Going back in time, here was the origin palette
+# Note the typo in entry 48: 112 (pink) not 2 (red)
+# https://github.com/root-project/root/blob/9294cc60a9a70dece4f24f0bc0399cc00c0f78b5/base/src/TStyle.cxx#L1445-L1449
+PALETTE99 = list(PALETTE)
+PALETTE99[-2] = 5 # typo was 112, but end up being magenta
 
 # These are the basic root colors. 
 # https://github.com/root-project/root/blob/2762a32343f57664b42558cd3af4031fe2f4f086/core/base/src/TColor.cxx#L1077
