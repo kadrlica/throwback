@@ -7,7 +7,7 @@ import matplotlib
 from collections import OrderedDict as odict
 
 
-# A more modern version from TColor...
+# A modern version (v6-14-02) of the Palette from TColor...
 # https://github.com/root-project/root/blob/2762a32343f57664b42558cd3af4031fe2f4f086/core/base/src/TColor.cxx#L2404-L2408
 PALETTE = [19,18,17,16,15,14,13,12,11,20,
            21,22,23,24,25,26,27,28,29,30, 8,
@@ -17,11 +17,14 @@ PALETTE = [19,18,17,16,15,14,13,12,11,20,
             #7, 6, 5, 4, 3, 112,1] # original with typo
             #7, 6, 5, 4, 3, 5,1]   # corrected to match
 
-# Going back in time, here was the origin palette
+# Going back in time to 2007 (v5-17-06), here was the origin palette
 # Note the typo in entry 48: 112 (pink) not 2 (red)
 # https://github.com/root-project/root/blob/9294cc60a9a70dece4f24f0bc0399cc00c0f78b5/base/src/TStyle.cxx#L1445-L1449
-PALETTE99 = list(PALETTE)
-PALETTE99[-2] = 5 # typo was 112, but end up being magenta
+# The commit of the fix:
+# https://github.com/root-project/root/commit/d3e92e5de7e76c1ded2af7218adc9bc20b7f0c9f
+PALETTE07 = list(PALETTE)
+PALETTE07[-2] = 5 # typo was 112, but end up being magenta
+
 
 # These are the basic root colors. 
 # https://github.com/root-project/root/blob/2762a32343f57664b42558cd3af4031fe2f4f086/core/base/src/TColor.cxx#L1077
@@ -81,26 +84,51 @@ TCOLORS = [
  (0.830000, 0.350000, 0.330000), # Name=Color50
 ]
 
-root = matplotlib.colors.ListedColormap([TCOLORS[i] for i in PALETTE99])
+root_cmap = matplotlib.colors.ListedColormap([TCOLORS[i] for i in PALETTE])
+root_cmap.set_over(TCOLORS[PALETTE[-1]]);
+root_cmap.set_under(TCOLORS[PALETTE[0]])
+
+root07_cmap = matplotlib.colors.ListedColormap([TCOLORS[i] for i in PALETTE07])
 
 
 if __name__ == "__main__":
     import argparse
     parser = argparse.ArgumentParser(description=__doc__)
     args = parser.parse_args()
+
     import numpy as np
     import pylab as plt
     from mpl_toolkits.mplot3d import Axes3D
 
     def fn(x,y):
         return 0.1+(1-(x-2)*(x-2))*(1-(y-2)*(y-2))
-    xx,yy = np.meshgrid(np.linspace(1,3,100),np.linspace(1,3,100))
+    xx,yy = np.meshgrid(np.linspace(1,3,1000),np.linspace(1,3,1000))
 
-    plt.figure()
-    plt.contourf(fn(xx,yy),20,vmin=0,vmax=1.08,cmap=root)
-    plt.colorbar(ticks=np.arange(0,1.2,0.1))
+    plt.figure(figsize=(6,4))
+    levels = np.arange(0.1,1.2,0.1)
+    plt.contourf(fn(xx,yy),levels,vmin=0.07,vmax=1.05,cmap=root_cmap,aspect='auto')
+    plt.colorbar(ticks=levels,pad=0.01,aspect=10)
+    plt.subplots_adjust(left=0.08,right=0.99)
 
-    fig = plt.figure()
+    """ Equivalent in ROOT:
+    TCanvas *c1  = new TCanvas("c1","c1",0,0,600,400);
+    TF2 *f1 = new TF2("f1","0.1+(1-(x-2)*(x-2))*(1-(y-2)*(y-2))",1,3,1,3);
+    f1->SetNpx(1000);
+    f1->SetNpy(1000);
+    f1->SetContour(20);
+    gStyle->SetPalette(-1);
+    f1->Draw("colz") 
+    """
+
+
+    fig = plt.figure(figsize=(6,4))
     ax = fig.add_subplot(111, projection='3d')
-    im = ax.plot_surface(xx,yy,fn(xx,yy),vmin=0,vmax=1.08,cmap=root)
-    plt.colorbar(ticks=np.arange(0,1.2,0.1))
+    im = ax.plot_surface(xx,yy,fn(xx,yy),vmin=0.1,vmax=1.09,cmap=root_cmap)
+    plt.colorbar(im,ticks=np.arange(0,1.2,0.1))
+    """
+    TCanvas *c2  = new TCanvas("c2","c2",0,0,600,400);
+    f1->SetContour(20);
+    f1->SetNpx(20);
+    f1->SetNpy(20)
+    f1->Draw("surf1z");
+    """
