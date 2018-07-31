@@ -29,7 +29,7 @@ xx,yy = np.meshgrid(np.linspace(1,3,1000),np.linspace(1,3,1000))
 
 plt.figure(figsize=(6,4))
 levels = np.arange(0.1,1.2,0.1)
-plt.contourf(fn(xx,yy),levels,vmin=0.07,vmax=1.05,cmap='root',aspect='auto')
+plt.contourf(xx,yy,fn(xx,yy),levels,vmin=0.07,vmax=1.05,cmap='root')
 plt.colorbar(ticks=levels,pad=0.01,aspect=10)
 plt.subplots_adjust(left=0.08,right=0.99)
 ```
