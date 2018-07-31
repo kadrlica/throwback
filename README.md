@@ -10,7 +10,8 @@ TCanvas *c1  = new TCanvas("c1","c1",0,0,600,400);
 TF2 *f1 = new TF2("f1","0.1+(1-(x-2)*(x-2))*(1-(y-2)*(y-2))",1,3,1,3);
 f1->SetNpx(1000);
 f1->SetNpy(1000);
-f1->SetContour(20);
+Double_t levels[] = {0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1.0,1.1};
+f1->SetContour(20, levels);
 gStyle->SetPalette(-1);
 f1->Draw("colz") 
 ```
