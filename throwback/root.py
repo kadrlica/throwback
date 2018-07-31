@@ -106,7 +106,7 @@ if __name__ == "__main__":
 
     plt.figure(figsize=(6,4))
     levels = np.arange(0.1,1.2,0.1)
-    plt.contourf(fn(xx,yy),levels,vmin=0.07,vmax=1.05,cmap=root_cmap,aspect='auto')
+    plt.contourf(xx,yy,fn(xx,yy),levels,vmin=0.07,vmax=1.05,cmap=root_cmap)
     plt.colorbar(ticks=levels,pad=0.01,aspect=10)
     plt.subplots_adjust(left=0.08,right=0.99)
 
