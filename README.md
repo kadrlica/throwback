@@ -1,10 +1,10 @@
 # Throwback
-Old color maps that willtake you back...
+Old color maps that will take you back...
 
 
 ## Examples
 
-Do you ever feel nostalgic for that old default colormap from `ROOT` c.2007?
+Do you ever feel nostalgic for that old default colormap from [`ROOT`](https://root.cern.ch/)?
 ```
 TCanvas *c1  = new TCanvas("c1","c1",0,0,600,400);
 TF2 *f1 = new TF2("f1","0.1+(1-(x-2)*(x-2))*(1-(y-2)*(y-2))",1,3,1,3);
@@ -18,7 +18,7 @@ f1->Draw("colz")
 
 ![ROOT of evil](data/root-of-evil.png)
 
-What a beautiful plot! How can I ever get something so attractive with `matplotlib`?
+What a beautiful plot! Can I ever get something so attractive with `matplotlib`?
 
 ```
 import throwback.cm 
